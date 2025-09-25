@@ -32,6 +32,7 @@ document = {}
 // location = {}
 window.top = window;
 window.addEventListener = _null;
+window.HTMLFormElement = _null;
 
 setInterval = _null;
 clearInterval = _null;
