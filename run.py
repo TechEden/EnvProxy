@@ -5,7 +5,7 @@ import re
 
 # 1. 初始化会话 & 读取本地JS文件
 session = requests.Session()
-with open("./RsRunDo.js", "r", encoding="utf-8") as f:
+with open("./launcher.js", "r", encoding="utf-8") as f:
     js_code = f.read()
 
 # 2. 配置请求头
