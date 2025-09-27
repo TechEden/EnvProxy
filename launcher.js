@@ -27,12 +27,16 @@ _null = function(){
 	// return null;
 }
 
+del __dirname;
+del __filename;
+
 window = global;
 document = {}
 // location = {}
 window.top = window;
 window.addEventListener = _null;
 window.HTMLFormElement = _null;
+window.attachEvent = undefined;
 
 setInterval = _null;
 clearInterval = _null;
@@ -58,7 +62,11 @@ div = {
             return {length:0};
         }
     }
-}
+};
+
+script1 = {getAttribute:_null};
+script2 = {getAttribute:_null};
+
 meta = {
     length:2,
     content:content,
@@ -90,10 +98,7 @@ document = {
         vlog("方法:", "getElementsByTagName  ", "对象:", "document",
             "  参数:", arg);
         if(arg==='script'){
-            return {
-                "0": {},
-                "1": {}
-            };
+            return [script1,script2];
         }
         if(arg==='meta'){
             return [meta,meta];
@@ -106,6 +111,7 @@ document = {
 
 // (4) 启动代理
 get_environment(proxy_array);
+get_environment(['script1','script2']);
 
 // (5) 运行你的目标脚本
 require('./1/RsTs.js');
