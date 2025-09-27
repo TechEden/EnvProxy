@@ -54,6 +54,56 @@ location = {
     "search": "",
     "hash": ""
 };
+
+
+// Mac环境的基础版navigator补全
+const mockNavigator = {
+    // 核心反爬检测点
+    webdriver: false,
+    
+    // 浏览器标识（Mac版Chrome示例）
+    userAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36",
+    appVersion: "5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36",
+    
+    // 系统平台（Mac专属标识）
+    platform: "MacIntel",  // 对应Intel芯片Mac
+    
+    // 语言设置（保持中文环境特征）
+    language: "zh-CN",
+    languages: ["zh-CN", "zh", "en-US", "en"],
+    
+    // 设备基础信息（Mac常见配置）
+    hardwareConcurrency: 8,  // Mac通常为4/8核心
+    deviceMemory: 16,        // Mac常见内存配置
+    
+    // 网络状态
+    onLine: true
+};
+
+// 定义属性，禁止直接修改
+Object.keys(mockNavigator).forEach(key => {
+    Object.defineProperty(window.navigator, key, {
+        value: mockNavigator[key],
+        writable: false,
+        enumerable: true,
+        configurable: true
+    });
+});
+
+// 补充Mac环境的userAgentData
+if (!window.navigator.userAgentData) {
+    Object.defineProperty(window.navigator, 'userAgentData', {
+        value: {
+            brands: [
+                { brand: "Google Chrome", version: "114" },
+                { brand: "Chromium", version: "114" }
+            ],
+            platform: "macOS"  // 明确标注macOS平台
+        },
+        writable: false
+    });
+}
+// Mac环境的基础版navigator补全
 div = {
     getElementsByTagName:function(arg){
         vlog("方法:", "getElementsByTagName  ", "对象:", "document",
