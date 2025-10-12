@@ -1,0 +1,199 @@
+// ----- EventTarget 标签对象 ------
+EventTarget = function EventTarget() {
+}
+EventTarget.prototype.addEventListener = function (res) {
+    console.log('EventTarget 的 addEventListener 获取的参数:', res)
+}
+Object.setPrototypeOf(EventTarget.prototype, global)
+EventTarget.prototype.toString = function toString() {
+    return 'function EventTarget() { [native code] }'
+}
+
+// ----- Node 标签对象 ------
+var Node = function Node() { }
+Node.prototype.appendChild = function appendChild(res) {
+    console.log('Node 的 appendChild 获取的参数:', res)
+}
+
+Node.prototype.removeChild = function removeChild(res) {
+    console.log('Node 的 removeChild 获取的参数:', res)
+}
+
+
+Node.prototype.toString = function toString() {
+    return 'function Node() { [native code] }'
+}
+
+
+
+
+
+// ----- Element 标签对象 ------
+var Element = function Element() {
+}
+Element.prototype.toString = function toString() {
+    return 'function Element() { [native code] }'
+}
+Element.prototype.getElementsByTagName = function getElementsByTagName(res) {
+    console.log(this.tagName, 'Element 的 getElementsByTagName 获取的参数:', res)
+    if (this.tagName == 'DIV' && res == 'i') {
+        return []
+    }
+}
+
+Element.prototype.innerHTML = ''
+Element.prototype.getAttribute = function (res) {
+    console.log(this.tagName, 'Element 的 getAttribute 获取的参数:', res)
+    if (this.tagName == 'SCRIPT' && res == 'r') {
+        return 'm'
+    } else if (this.tagName == 'Meta ' && res == 'r') {
+        return 'm'
+    }
+}
+
+Object.setPrototypeOf(Element.prototype, Node.prototype)
+
+var HTMLElement = function HTMLElement() {
+}
+Object.setPrototypeOf(HTMLElement.prototype, Element.prototype)
+
+
+// ------div标签对象-------------
+HTMLDivElement = function HTMLDivElement() {
+}
+Object.setPrototypeOf(HTMLDivElement.prototype, HTMLElement.prototype)
+function Div() {
+    this.tagName = 'DIV';
+}
+Div.prototype = new HTMLDivElement();
+
+var div = new Div()
+get_enviroment(['div'])
+
+
+//  ---- script标签--------
+var SVGElement = function SVGElement() {
+}
+Object.setPrototypeOf(SVGElement.prototype, Element.prototype)
+SVGScriptElement = function SVGScriptElement() {
+}
+Object.setPrototypeOf(SVGScriptElement.prototype, SVGElement.prototype)
+
+
+function script() {
+    this.tagName = 'SCRIPT';
+}
+script.prototype = new SVGScriptElement();
+
+var script = new script()
+get_enviroment(['script'])
+
+
+//  -----------------head-----------------
+HTMLHeadElement = function HTMLHeadElement() {
+}
+Object.setPrototypeOf(HTMLHeadElement.prototype, HTMLElement.prototype)
+function Head() {
+    this.tagName = 'HEAD';
+}
+Head.prototype = new HTMLHeadElement();
+
+var head = new Head()
+Node.prototype.parentElement = head
+get_enviroment(['head'])
+
+
+
+// -------------=meta标签-------------
+HTMLMetaElement = function HTMLMetaElement() {
+}
+Object.setPrototypeOf(HTMLMetaElement.prototype, HTMLElement.prototype)
+function Meta() {
+    this.tagName = 'Meta';
+}
+Meta.prototype = new HTMLMetaElement();
+var meta = new Meta()
+get_enviroment(['meta'])
+
+// --------form--=
+HTMLFormElement = function HTMLFormElement() {
+}
+Object.setPrototypeOf(HTMLFormElement.prototype, HTMLElement.prototype)
+function Form() {
+    this.tagName = 'Form';
+}
+Form.prototype = new HTMLFormElement();
+var form = new Form()
+get_enviroment(['form'])
+
+
+
+
+
+//  ----------------window-----------------
+
+Window = function Window() {
+}
+Window.prototype.toString = function toString() {
+    return 'function Window() { [native code] }'
+}
+Window.prototype.requestAnimationFrame = function requestAnimationFrame(res) {
+    console.log('Window 的 requestAnimationFrame 获取的参数:', res)
+}
+Object.setPrototypeOf(Window.prototype, EventTarget.prototype)
+window = new Window()
+window.toString = function () {
+    return '[object Window]'
+}
+globalThis = window
+window.top = window
+window.setTimeout = function setTimeout(res) {
+    console.log('Window 的 setTimeout 获取的参数:', res)
+}
+window.setInterval = function setInterval(res) {
+    console.log('Window 的 setInterval 获取的参数:', res)
+}
+
+
+// -----------document-------------------
+Object.setPrototypeOf(Node.prototype, EventTarget.prototype)
+
+
+var Document = function Document() {
+}
+
+Document.prototype.createElement = function createElement(args) {
+    console.log('document的createElement接受的参数:', args)
+    if (args == 'div') {
+        return div
+    }
+    else if (args == 'form') {
+        return form
+    }
+}
+Document.prototype.getElementById = function getElementById(args) {
+    console.log('document的getElementById接受的参数:', args)
+
+}
+Document.prototype.getElementsByTagName = function getElementsByTagName(args) {
+    console.log('document 的 getElementsByTagName 接受的参数:', args)
+    if (args == 'script') {
+        return [script, script]
+    } else if (args == 'meta') {
+        return [meta, meta]
+    } else if (args == 'base') {
+        return []
+    }
+}
+Document.prototype.cookie = 'enable_S6J51OuUjLie=true'
+
+
+Object.setPrototypeOf(Document.prototype, Node.prototype)
+
+
+HTMLDocument = function HTMLDocument() {
+
+}
+Object.setPrototypeOf(HTMLDocument.prototype, Document.prototype)
+
+document = new HTMLDocument()
